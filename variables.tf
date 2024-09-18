@@ -5,7 +5,7 @@ variable "imageId" {
 
 variable "anzahlDerServer" {
   type = number
-  default = 1
+  default = 2
 }
 
 variable "serverName" {
