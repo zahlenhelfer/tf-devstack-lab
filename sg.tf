@@ -6,24 +6,25 @@ resource "openstack_networking_secgroup_v2" "secgroup_1" {
 }
 
 resource "openstack_networking_secgroup_rule_v2" "secgroup_rule_1" {
-  for_each          = var.ingress_port
+  for_each          = var.web_security_group_rules.ingress_rules
   direction         = "ingress"
-  description       = each.key
+  description       = each.value.description
   ethertype         = each.value.ethertype
-  protocol          = each.value.protocol
-  port_range_min    = each.value.port
-  port_range_max    = each.value.port
-  remote_ip_prefix  = each.value.remote_prefix
+  protocol          = each.value.ip_protocol
+  port_range_min    = each.value.from_port
+  port_range_max    = each.value.to_port
+  remote_ip_prefix  = each.value.cidr_ipv4
   security_group_id = openstack_networking_secgroup_v2.secgroup_1.id
 }
 
 resource "openstack_networking_secgroup_rule_v2" "secgroup_rule_2" {
-  for_each = toset(var.egress_port)
+  for_each          = var.web_security_group_rules.egress_rules
   direction         = "egress"
-  ethertype         = "IPv4"
-  protocol          = "tcp"
-  port_range_min    = each.value
-  port_range_max    = each.value
-  remote_ip_prefix  = "0.0.0.0/0"
+  description       = each.value.description
+  ethertype         = each.value.ethertype
+  protocol          = each.value.ip_protocol
+  port_range_min    = each.value.from_port
+  port_range_max    = each.value.to_port
+  remote_ip_prefix  = each.value.cidr_ipv4
   security_group_id = openstack_networking_secgroup_v2.secgroup_1.id
 }

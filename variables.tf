@@ -38,30 +38,24 @@ variable "buildDatabaseAsVM" {
   default = false
 }
 
-variable "ingress_port" {
-  type = map(any)
-  default = {
-    rule1 = {
-      port     = 22,
-      protocol = "tcp",
-      ethertype = "IPv4",
-      remote_prefix= "0.0.0.0/0"
-    }
-    rule2 = {
-      port     = 443,
-      protocol = "tcp",
-      ethertype = "IPv4",
-      remote_prefix= "0.0.0.0/0"
-    }
-    rule3 = {
-      port     = 80,
-      protocol = "tcp",
-      ethertype = "IPv4",
-      remote_prefix= "0.0.0.0/0"
-    }
-  }
-}
-
-variable "egress_port" {
-  default = ["22","666","80"] # bei for_reach ein toset() zu nutzen
+variable "web_security_group_rules" {
+  description = "The security group rules for the web servers."
+  type = object({
+    ingress_rules = optional(map(object({
+      cidr_ipv4   = string
+      from_port   = number
+      ip_protocol = string
+      to_port     = number
+      description = string
+      ethertype=string
+    })))
+    egress_rules = optional(map(object({
+      cidr_ipv4   = string
+      from_port   = number
+      ip_protocol = string
+      to_port     = number
+      description = string
+      ethertype=string
+    })))
+  })
 }
