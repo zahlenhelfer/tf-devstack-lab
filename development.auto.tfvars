@@ -1,1 +1,0 @@
-anzahlDerServer=1

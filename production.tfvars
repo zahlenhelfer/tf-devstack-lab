@@ -1,1 +1,2 @@
-anzahlDerServer=5
+anzahlDerServer   = 5
+buildDatabaseAsVM = false
