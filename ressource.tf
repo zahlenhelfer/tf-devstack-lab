@@ -3,7 +3,7 @@ resource "openstack_compute_instance_v2" "webServer" {
   name            = var.serverName[count.index]
   image_id        = data.openstack_images_image_v2.debian.id
   flavor_id       = "2"
-  security_groups = [openstack_networking_secgroup_v2.secgroup_1.name]
+  security_groups = [module.openstack_security_group.security_group_name]
   metadata        = var.metadata
   user_data       = file("./installWebserver.sh")
   key_pair        = "my_key"
@@ -13,7 +13,7 @@ resource "openstack_compute_instance_v2" "webServer" {
   }
 
   depends_on = [
-    openstack_networking_secgroup_v2.secgroup_1
+    module.openstack_security_group
   ]
 
   lifecycle {

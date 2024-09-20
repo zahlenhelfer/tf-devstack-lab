@@ -1,6 +1,6 @@
 anzahlDerServer   = 1
 buildDatabaseAsVM = true
-web_security_group_rules = {
+security_group_rules = {
   ingress_rules = {
     "http-public-subnet" = {
       cidr_ipv4   = "10.0.0.0/24"
